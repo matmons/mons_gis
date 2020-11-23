@@ -1,18 +1,22 @@
-import React, { useState, useCallback } from "react"
+import React, { useCallback } from "react"
 import { ProSidebar, SidebarHeader, SidebarContent, SidebarFooter, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { useDropzone } from 'react-dropzone'
 
+import getRandomColor from "../helpers/getRandomColor"
+import LayerMenuItem from "./LayerMenuItem"
 import 'react-pro-sidebar/dist/css/styles.css';
 
 const Sidebar = ({ layers, addLayer }) => {
-	const [collapsed, toggleCollapsed] = useState(true)
 	const convertJSONToLayer = (jsonString) => {
 		const GeoJSON = JSON.parse(jsonString);
+		console.log("geojson", GeoJSON)
 		const newLayer = {
-			name: GeoJSON.name,
+			id: GeoJSON.name ? GeoJSON.name : (Math.floor(Math.random() * 1000)).toString(),
 			data: GeoJSON,
-			visible: true
+			addedToMap: false,
+			color: getRandomColor()
 		}
+		console.log(newLayer)
 		addLayer(newLayer);
 	}
 
@@ -31,8 +35,8 @@ const Sidebar = ({ layers, addLayer }) => {
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 	return (
-		<ProSidebar collapsed={collapsed} onMouseOver={() => toggleCollapsed(false)}>
-			<SidebarHeader>GIS</SidebarHeader>
+		<ProSidebar >
+			<SidebarHeader><h2>Mons GIS</h2></SidebarHeader>
 			<SidebarContent>
 				<Menu>
 					<SubMenu title="Operations" >
@@ -50,7 +54,7 @@ const Sidebar = ({ layers, addLayer }) => {
 					<SubMenu title="Active layers" >
 						{layers.length ?
 							layers.map((layer) =>
-								(<MenuItem key={layer.name}>{layer.name}</MenuItem>))
+								(<MenuItem key={layer.id}><LayerMenuItem layer={layer} /></MenuItem>))
 							:
 							<MenuItem>No layers</MenuItem>
 						}

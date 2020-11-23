@@ -4,11 +4,22 @@
   top: 0;
   left: 0;
   margin: 12px;
-  background-color: #404040;
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #000000;
   z-index: 1 !important;
   padding: 6px;
   font-weight: bold;
+}
+
+.menuStyle {
+  position: absolute;
+  background: #ffffff;
+  z-index: 1;
+  right: 0;
+  top: 0;
+  margin: 12px;
+  padding: 6px;
+  display: flex;
 }
 
 .mapContainer {

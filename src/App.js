@@ -1,8 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 
-import Sidebar from "./Sidebar"
-import Map from "./Map"
+import Sidebar from "./components/Sidebar"
+import Map from "./components/Map"
 
 function App() {
 	return (

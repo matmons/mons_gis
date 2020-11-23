@@ -3,20 +3,14 @@ import mapboxgl from 'mapbox-gl';
 
 import Sidebar from "./Sidebar"
 
-const menuStyle = {
-	position: "absolute",
-	background: "white",
-	padding: 10,
-	zIndex: "1",
-	display: "flex",
-};
-
 const backgroundLayers = [
 	{ id: "streets-v11", name: "Streets" },
 	{ id: "light-v10", name: "Light" },
 	{ id: "dark-v10", name: "Dark" },
 	{ id: "satellite-v9", name: "Satellite" },
 ];
+mapboxgl.accessToken = "pk.eyJ1IjoibW9uc2VtIiwiYSI6ImNraG4yc2syaTBiZ24ydGwxOTg0ZnJiMG0ifQ.B3OT7lkRhmt4w5lTa9fJ2w"
+
 const Map = () => {
 	const [map, setMap] = useState(null)
 	const [backgroundLayerID, setbackgroundLayerID] = useState("streets-v11");
@@ -24,8 +18,6 @@ const Map = () => {
 	const mapContainer = useRef(null)
 
 	useEffect(() => {
-		mapboxgl.accessToken = 'pk.eyJ1IjoibW9uc2VtIiwiYSI6ImNraG4yc2syaTBiZ24ydGwxOTg0ZnJiMG0ifQ.B3OT7lkRhmt4w5lTa9fJ2w';
-
 		const initializeMap = ({ setMap, mapContainer }) => {
 			console.log("inimap runs")
 			const map = new mapboxgl.Map({
@@ -39,41 +31,54 @@ const Map = () => {
 				map.resize();
 			});
 		};
-		const updateMap = ({ map }) => {
-			console.log("updatemap runs");
-			map.on("load", () => {
-				layers.filter(layer => layer.visible)
-					.map(visibleLayer => {
-						map.addSource(visibleLayer.name, {
-							'type': 'geojson',
-							'data': visibleLayer.data
-						})
-						map.addLayer({
-							'id': visibleLayer.name,
-							'type': 'fill',
-							'source': visibleLayer.name,
-							'layout': {},
-							'paint': {
-								'fill-color': '#088',
-								'fill-opacity': 0.8
-							}
-						})
-					})
-			});
 
-		}
 		if (!map) initializeMap({ setMap, mapContainer });
-		if (map && layers) updateMap({ setMap })
-	}, [map, layers]);
+		if (map) map.setStyle("mapbox://styles/mapbox/" + backgroundLayerID);
+	}, [backgroundLayerID, map]);
 
-	const addLayer = (layer) => {
+	useEffect(() => {
+		const updateMap = (map, layers) => {
+			layers.filter((l) => !l.addedToMap)
+				.forEach((layer) => {
+					console.log("layer", layer)
+					map.addSource(layer.id, {
+						'type': 'geojson',
+						'data': layer.data
+					});
+					map.addLayer({
+						'id': layer.id,
+						'type': 'fill',
+						'source': layer.id,
+						'layout': {
+							visibility: 'visible'
+						},
+						'paint': {
+							'fill-color': layer.color,
+							'fill-opacity': 0.4
+						}
+					});
+					layer.addedToMap = true;
+				})
+		}
+		if (map && layers) updateMap(map, layers)
+	}, [layers, map])
+
+
+	const addLayerToState = (layer) => {
 		setLayers((oldLayers) => [...oldLayers, layer]);
 	}
-
+	const removeLayerFromState = (map, layerId) => {
+		map.removeSource(layerId)
+		map.removeLayer(layerId);
+		setLayers(layers => layers.filter(layer => layer.id !== layerId))
+	}
+	const removeAllLayers = () => {
+		setLayers([])
+	}
 	return (
 		<div>
-			<Sidebar layers={layers} addLayer={addLayer} />
-			<div style={menuStyle}>
+			<Sidebar layers={layers} addLayer={addLayerToState} />
+			<div className="menuStyle">
 				{backgroundLayers.map((backgroundLayer) => (
 					<div key={backgroundLayer.id}>
 						<input
@@ -81,14 +86,17 @@ const Map = () => {
 							type="radio"
 							name="rtoggle"
 							value={backgroundLayer.id}
-							onClick={() => setbackgroundLayerID(backgroundLayer.id)}
+							onClick={() => {
+								setbackgroundLayerID(backgroundLayer.id);
+								removeAllLayers()
+							}}
 							defaultChecked={backgroundLayer.id === backgroundLayerID}
 						/>
 						<label>{backgroundLayer.name}</label>
 					</div>
 				))}
 			</div>
-			<div ref={(el) => (mapContainer.current = el)} style={styles} />
+			<div ref={(el) => (mapContainer.current = el)} className="mapContainer" />
 		</div>
 	)
 
