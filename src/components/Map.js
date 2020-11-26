@@ -67,7 +67,7 @@ const Map = () => {
 	const addLayerToState = (layer) => {
 		setLayers((oldLayers) => [...oldLayers, layer]);
 	}
-	const removeLayerFromState = (map, layerId) => {
+	const removeLayerFromState = (layerId) => {
 		map.removeSource(layerId)
 		map.removeLayer(layerId);
 		setLayers(layers => layers.filter(layer => layer.id !== layerId))
@@ -75,9 +75,18 @@ const Map = () => {
 	const removeAllLayers = () => {
 		setLayers([])
 	}
+	const toggleVisibility = (layerId) => {
+		const visibility = map.getLayoutProperty(layerId, "visibility");
+		if (visibility === 'visible') {
+			map.setLayoutProperty(layerId, 'visibility', 'none');
+		} else {
+			map.setLayoutProperty(layerId, 'visibility', 'visible')
+		}
+	};
+
 	return (
 		<div>
-			<Sidebar layers={layers} addLayer={addLayerToState} />
+			{/* <Sidebar layers={layers} addLayer={addLayerToState} removeLayer={removeLayerFromState} toggleVisibility={toggleVisibility} /> */}
 			<div className="menuStyle">
 				{backgroundLayers.map((backgroundLayer) => (
 					<div key={backgroundLayer.id}>

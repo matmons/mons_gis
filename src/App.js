@@ -1,12 +1,11 @@
-import logo from './logo.svg';
-import './App.css';
-
-import Sidebar from "./components/Sidebar"
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Map from "./components/Map"
+import Navbar from "./components/Navbar/Navbar"
 
 function App() {
 	return (
-		<div className="App">
+		<div>
+			<Navbar />
 			<Map />
 		</div>
 	);

@@ -4,8 +4,6 @@ import mapboxgl from 'mapbox-gl';
 
 import App from "./App"
 
-mapboxgl.accessToken = 'pk.eyJ1IjoibW9uc2VtIiwiYSI6ImNraG4yc2syaTBiZ24ydGwxOTg0ZnJiMG0ifQ.B3OT7lkRhmt4w5lTa9fJ2w';
-
 class Application extends React.Component {
 	render() {
 		return (

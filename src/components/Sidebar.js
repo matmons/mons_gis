@@ -1,12 +1,14 @@
 import React, { useCallback } from "react"
 import { ProSidebar, SidebarHeader, SidebarContent, SidebarFooter, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { useDropzone } from 'react-dropzone'
+import * as FaIcons from 'react-icons/fa'
 
 import getRandomColor from "../helpers/getRandomColor"
 import LayerMenuItem from "./LayerMenuItem"
-import 'react-pro-sidebar/dist/css/styles.css';
 
-const Sidebar = ({ layers, addLayer }) => {
+import 'react-pro-sidebar/dist/scss/styles.scss';
+
+const Sidebar = ({ layers, addLayer, removeLayer, toggleVisibility }) => {
 	const convertJSONToLayer = (jsonString) => {
 		const GeoJSON = JSON.parse(jsonString);
 		console.log("geojson", GeoJSON)
@@ -35,7 +37,7 @@ const Sidebar = ({ layers, addLayer }) => {
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 	return (
-		<ProSidebar >
+		<ProSidebar className="sidebarStyle">
 			<SidebarHeader><h2>Mons GIS</h2></SidebarHeader>
 			<SidebarContent>
 				<Menu>
@@ -51,10 +53,10 @@ const Sidebar = ({ layers, addLayer }) => {
 						<MenuItem>Kepler</MenuItem>
 						<MenuItem>Other</MenuItem>
 					</SubMenu>
-					<SubMenu title="Active layers" >
+					<SubMenu title="Active layers" icon={<FaIcons.FaBars />}>
 						{layers.length ?
 							layers.map((layer) =>
-								(<MenuItem key={layer.id}><LayerMenuItem layer={layer} /></MenuItem>))
+								(<MenuItem key={layer.id} className="menuItemStyle" icon={<FaIcons.FaEye />}><LayerMenuItem layer={layer} removeLayer={removeLayer} toggleVisibility={toggleVisibility} /></MenuItem>))
 							:
 							<MenuItem>No layers</MenuItem>
 						}
@@ -74,7 +76,7 @@ const Sidebar = ({ layers, addLayer }) => {
 				</Menu>
 			</SidebarContent>
 			<SidebarFooter>Made by an idiot</SidebarFooter>
-		</ProSidebar>
+		</ProSidebar >
 	)
 }
 export default Sidebar

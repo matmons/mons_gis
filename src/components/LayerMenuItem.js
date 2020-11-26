@@ -1,14 +1,14 @@
 import React from 'react'
-import { Row, Col, } from "react-bootstrap"
+import { Col, } from "react-bootstrap"
 
-const LayerMenuItem = ({ layer }) => {
+const LayerMenuItem = ({ layer, removeLayer, toggleVisibility }) => {
     return (
-        <Row strict>
-            <Col md={2}><i class="fas fa-eye"></i></Col>
-            <Col md={7}>{layer.id}</Col>
+        <>
+            <Col md={2}><i class="fas fa-eye" onClick={() => toggleVisibility(layer.id)} /></Col>
+            <Col md={6}>{layer.id}</Col>
             <Col md={2}>{layer.color}</Col>
-            <Col md={2}><i class="fas fa-times"></i>Delete Layer</Col>
-        </Row>
+            <Col md={2}><i class="fas fa-times" onClick={() => removeLayer(layer.id)} /></Col>
+        </>
     )
 }
 

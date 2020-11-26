@@ -1,14 +1,9 @@
 .sidebarStyle {
-  display: inline-block;
   position: absolute;
   top: 0;
   left: 0;
-  margin: 12px;
-  background-color: #ffffff;
-  color: #000000;
-  z-index: 1 !important;
   padding: 6px;
-  font-weight: bold;
+  font-variant: "times";
 }
 
 .menuStyle {
@@ -22,10 +17,32 @@
   display: flex;
 }
 
+.menuItemStyle {
+  width: 100%;
+}
+
 .mapContainer {
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
+  z-index: -1;
+}
+
+.navContainer {
+  position: absolute;
+  top: 0;
+  left: 1em;
+  width: 270px;
+  background-color: rgb(37, 37, 37);
+  color: rgb(238, 236, 236);
+  padding: 1em;
+  margin-top: 1em;
+  margin-left: 1em;
+}
+
+.strictRow {
+  align-items: center;
+  flex-wrap: nowrap;
 }
