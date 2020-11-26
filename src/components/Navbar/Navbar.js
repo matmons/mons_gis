@@ -1,27 +1,22 @@
 import React from 'react'
-import { FaGlobeAmericas } from "react-icons/fa"
 import { Container, Row, Col } from "react-bootstrap"
-import Menu from "./Menu"
+import OperationItem from "./OperationItem"
+import UploadItem from "./UploadItem"
+import NavHeader from "./NavHeader"
+import LayerItem from "./LayerItem"
 
 const operationList = ["Buffer", "Intersect", "Union"]
 const menuTest = { name: "Operations", subItems: operationList, icon: "tools" }
-const Navbar = () => {
+const Navbar = ({ layers, addLayer, removeLayer, toggleVisibility }) => {
+
     return (
         <>
             <Col md={3}>
                 <Container className="navContainer">
-                    <Row className="strictRow">
-                        <Col md={2} >
-                            <FaGlobeAmericas size="2em" />
-                        </Col>
-                        <Col md={8}>
-                            <h2> Mons GIS </h2>
-                        </Col>
-                        <Col md={2} />
-                    </Row>
-                    <Menu item={menuTest} />
-                    <Row>Layers</Row>
-                    <Row>Upload</Row>
+                    <NavHeader />
+                    <OperationItem item={menuTest} />
+                    <LayerItem layers={layers} removeLayer={removeLayer} toggleVisibility={toggleVisibility} />
+                    <UploadItem addLayer={addLayer} />
                 </Container>
             </Col>
             <Col md={9} />

@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 
-import Sidebar from "./Sidebar"
-
+import Navbar from "./Navbar/Navbar"
 const backgroundLayers = [
 	{ id: "streets-v11", name: "Streets" },
 	{ id: "light-v10", name: "Light" },
@@ -19,7 +18,6 @@ const Map = () => {
 
 	useEffect(() => {
 		const initializeMap = ({ setMap, mapContainer }) => {
-			console.log("inimap runs")
 			const map = new mapboxgl.Map({
 				container: mapContainer.current,
 				style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
@@ -40,7 +38,6 @@ const Map = () => {
 		const updateMap = (map, layers) => {
 			layers.filter((l) => !l.addedToMap)
 				.forEach((layer) => {
-					console.log("layer", layer)
 					map.addSource(layer.id, {
 						'type': 'geojson',
 						'data': layer.data
@@ -68,8 +65,8 @@ const Map = () => {
 		setLayers((oldLayers) => [...oldLayers, layer]);
 	}
 	const removeLayerFromState = (layerId) => {
-		map.removeSource(layerId)
 		map.removeLayer(layerId);
+		map.removeSource(layerId);
 		setLayers(layers => layers.filter(layer => layer.id !== layerId))
 	}
 	const removeAllLayers = () => {
@@ -83,10 +80,10 @@ const Map = () => {
 			map.setLayoutProperty(layerId, 'visibility', 'visible')
 		}
 	};
-
 	return (
 		<div>
 			{/* <Sidebar layers={layers} addLayer={addLayerToState} removeLayer={removeLayerFromState} toggleVisibility={toggleVisibility} /> */}
+			<Navbar layers={layers} addLayer={addLayerToState} removeLayer={removeLayerFromState} toggleVisibility={toggleVisibility} />
 			<div className="menuStyle">
 				{backgroundLayers.map((backgroundLayer) => (
 					<div key={backgroundLayer.id}>
