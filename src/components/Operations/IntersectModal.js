@@ -1,23 +1,25 @@
 import React, { useState } from 'react'
 import { Row, Button, Modal, Col, Form } from 'react-bootstrap'
-import buffer from "@turf/buffer"
+import intersect from "@turf/intersect"
 import getRandomColor from "./../../helpers/getRandomColor"
 
-const OperationMenuItem = ({ operation, layers, addLayer }) => {
-    const [layerId, setLayerId] = useState()
-    const [radius, setRadius] = useState()
+const IntersectModal = ({ operation, layers, addLayer }) => {
+    const [layer1, setLayer1] = useState()
+    const [layer2, setLayer2] = useState()
+
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const handleSubmit = (event) => {
-        const selectedLayer = layers.find(layer => layer.id === layerId)
-        console.log(selectedLayer)
-        var buffered = buffer(selectedLayer.data, radius)
+        const l1 = layers.find(layer => layer.id === layer1)
+        const l2 = layers.find(layer => layer.id === layer2)
+
+        var intersected = intersect(l1.data, l2.data)
         const newLayer = {
-            id: operation + "_" + (selectedLayer.id).toString(),
-            data: buffered,
+            id: operation + "_" + l1.id + "_" + l2.id,
+            data: intersected,
             addedToMap: false,
             color: getRandomColor()
         }
@@ -40,16 +42,19 @@ const OperationMenuItem = ({ operation, layers, addLayer }) => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        <Form.Group controlId="layer" >
-                            <Form.Label>Select Layer</Form.Label>
-                            <Form.Control as="select" onChange={(e) => setLayerId(e.target.value)} required>
-                                <option key="blank" default value={null}>---</option>
-                                {layers.map(layer => (<option key={layer.id} value={layer.id}>{layer.name ? layer.name : layer.id}</option>))}
+                        <Form.Group controlId="layer1" >
+                            <Form.Label>Select Layer 1</Form.Label>
+                            <Form.Control as="select" onChange={(e) => setLayer1(e.target.value)}>
+                                <option key="blank" default value="">---</option>
+                                {layers.filter(l => l !== layer2).map(layer => (<option key={layer.id} value={layer.id}>{layer.name ? layer.name : layer.id}</option>))}
                             </Form.Control>
                         </Form.Group>
-                        <Form.Group controlId="radius" >
-                            <Form.Label>Radius</Form.Label>
-                            <Form.Control type="number" placeholder="Kilometers" onChange={(e) => setRadius(e.target.value)} />
+                        <Form.Group controlId="layer2" >
+                            <Form.Label>Select Layer 2</Form.Label>
+                            <Form.Control as="select" onChange={(e) => setLayer2(e.target.value)}>
+                                <option key="blank" default value="">---</option>
+                                {layers.filter(l => l !== layer1).map(layer => (<option key={layer.id} value={layer.id}>{layer.name ? layer.name : layer.id}</option>))}
+                            </Form.Control>
                         </Form.Group>
                     </Form>
                 </Modal.Body>
@@ -69,4 +74,4 @@ const OperationMenuItem = ({ operation, layers, addLayer }) => {
     );
 }
 
-export default OperationMenuItem;
+export default IntersectModal;

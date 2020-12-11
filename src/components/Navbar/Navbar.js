@@ -1,21 +1,19 @@
 import React from 'react'
 import { Container, Row, Col } from "react-bootstrap"
-import OperationItem from "./OperationItem"
 import UploadItem from "./UploadItem"
 import NavHeader from "./NavHeader"
 import LayerItem from "./LayerItem"
+import Operations from "./Operations"
 
-const operationList = ["Buffer", "Intersect", "Union"]
-const menuTest = { name: "Operations", subItems: operationList, icon: "tools" }
-const Navbar = ({ layers, addLayer, removeLayer, toggleVisibility }) => {
+const Navbar = ({ map, layers, addLayer, removeLayer }) => {
 
     return (
         <>
             <Col md={3}>
                 <Container className="navContainer">
                     <NavHeader />
-                    <OperationItem item={menuTest} />
-                    <LayerItem layers={layers} removeLayer={removeLayer} toggleVisibility={toggleVisibility} />
+                    <Operations layers={layers} addLayer={addLayer} />
+                    <LayerItem map={map} layers={layers} removeLayer={removeLayer} />
                     <UploadItem addLayer={addLayer} />
                 </Container>
             </Col>

@@ -4,7 +4,7 @@ import { RiArrowDropDownLine, RiArrowDropRightLine } from 'react-icons/ri'
 import { FaBuffer } from 'react-icons/fa'
 import NavLayer from "./NavLayer.js"
 
-const LayerItem = ({ layers, removeLayer, toggleVisibility }) => {
+const LayerItem = ({ map, layers, removeLayer }) => {
     const [dropdown, toggleDropdown] = useState(false)
 
     return (
@@ -21,7 +21,7 @@ const LayerItem = ({ layers, removeLayer, toggleVisibility }) => {
             </Row>
             {
                 dropdown && layers.map(layer => (
-                    <NavLayer key={layer.id} layer={layer} removeLayer={removeLayer} toggleVisibility={toggleVisibility} />
+                    <NavLayer key={layer.id} map={map} layer={layer} removeLayer={removeLayer} />
                 ))
             }
         </>

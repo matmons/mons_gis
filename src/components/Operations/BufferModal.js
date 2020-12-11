@@ -3,9 +3,10 @@ import { Row, Button, Modal, Col, Form } from 'react-bootstrap'
 import buffer from "@turf/buffer"
 import getRandomColor from "./../../helpers/getRandomColor"
 
-const OperationMenuItem = ({ operation, layers, addLayer }) => {
+const BufferModal = ({ operation, layers, addLayer }) => {
     const [layerId, setLayerId] = useState()
     const [radius, setRadius] = useState()
+
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -42,8 +43,8 @@ const OperationMenuItem = ({ operation, layers, addLayer }) => {
                     <Form>
                         <Form.Group controlId="layer" >
                             <Form.Label>Select Layer</Form.Label>
-                            <Form.Control as="select" onChange={(e) => setLayerId(e.target.value)} required>
-                                <option key="blank" default value={null}>---</option>
+                            <Form.Control as="select" onChange={(e) => setLayerId(e.target.value)}>
+                                <option key="blank" default value="">---</option>
                                 {layers.map(layer => (<option key={layer.id} value={layer.id}>{layer.name ? layer.name : layer.id}</option>))}
                             </Form.Control>
                         </Form.Group>
@@ -69,4 +70,4 @@ const OperationMenuItem = ({ operation, layers, addLayer }) => {
     );
 }
 
-export default OperationMenuItem;
+export default BufferModal;

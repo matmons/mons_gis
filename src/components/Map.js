@@ -80,10 +80,11 @@ const Map = () => {
 			map.setLayoutProperty(layerId, 'visibility', 'visible')
 		}
 	};
+
 	return (
 		<div>
 			{/* <Sidebar layers={layers} addLayer={addLayerToState} removeLayer={removeLayerFromState} toggleVisibility={toggleVisibility} /> */}
-			<Navbar layers={layers} addLayer={addLayerToState} removeLayer={removeLayerFromState} toggleVisibility={toggleVisibility} />
+			<Navbar map={map} layers={layers} addLayer={addLayerToState} removeLayer={removeLayerFromState} toggleVisibility={toggleVisibility} />
 			<div className="menuStyle">
 				{backgroundLayers.map((backgroundLayer) => (
 					<div key={backgroundLayer.id}>

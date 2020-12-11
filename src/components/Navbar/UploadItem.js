@@ -19,7 +19,6 @@ const UploadItem = ({ addLayer }) => {
             addedToMap: false,
             color: getRandomColor()
         }
-        console.log(newLayer)
         addLayer(newLayer);
     }
 
