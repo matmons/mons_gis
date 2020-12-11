@@ -2,6 +2,7 @@
   "name": "react-gis",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://matmons.github.io/mons_gis",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
@@ -11,6 +12,7 @@
     "@testing-library/user-event": "^12.1.10",
     "@turf/turf": "^5.1.6",
     "bootstrap": "^4.5.3",
+    "gh-pages": "^3.1.0",
     "node-sass": "^4.0.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
@@ -27,6 +29,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
