@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
-import { Row, Button, Modal, Col, Form } from 'react-bootstrap'
-import buffer from '@turf/buffer'
-import intersect from '@turf/intersect'
-import difference from '@turf/difference'
-import getRandomColor from '../../helpers/getRandomColor'
+import { Row, Button, Modal, Col, Form, Popover, OverlayTrigger } from 'react-bootstrap'
+import { FaInfoCircle } from 'react-icons/fa'
+import { Buffer, Intersect, Union, Difference } from '../../helpers/operationFunctions'
 
 const OperationModal = ({ operation, layers, addLayer }) => {
     const [layerIds, setLayerIds] = useState({})
@@ -14,61 +12,42 @@ const OperationModal = ({ operation, layers, addLayer }) => {
     const handleShow = () => setShow(true);
 
     const handleSubmit = (event) => {
-        console.log(operation.layerList[0])
         switch (operation.title) {
             case 'Buffer':
-                const selectedLayer = layers.find(layer => layer.id === layerIds[operation.layerList[0]])
-                var buffered = buffer(selectedLayer.data, parameters['Radius'])
-                const bufferLayer = {
-                    id: operation.title + '_' + (selectedLayer.id).toString(),
-                    data: buffered,
-                    addedToMap: false,
-                    color: getRandomColor()
-                }
-                addLayer(bufferLayer)
-                event.preventDefault()
-                setLayerIds([])
+                const buff_l1 = layers.find(layer => layer.id === layerIds[operation.layerList[0]])
+                var bufferLayer = Buffer(buff_l1, parameters['Radius'])
+                addNewLayer(event, bufferLayer)
                 break;
             case 'Intersect':
                 const int_l1 = layers.find(layer => layer.id === layerIds[operation.layerList[0]])
                 const int_l2 = layers.find(layer => layer.id === layerIds[operation.layerList[1]])
-                console.log(int_l1.data.features[0], int_l2.data.features[0])
-                var intersected = intersect(int_l1.data.features[0], int_l2.data.features[0])
-                const intersectLayer = {
-                    id: operation.title + '_' + int_l1.id + '_' + int_l2.id,
-                    data: intersected,
-                    addedToMap: false,
-                    color: getRandomColor()
-                }
-                if (intersectLayer) {
-                    addLayer(intersectLayer)
-                } else {
-                    alert("No area to intersect")
-                }
-                event.preventDefault()
-                setLayerIds([])
+                var intersected = Intersect(int_l1, int_l2)
+                addNewLayer(event, intersected)
+                break;
+            case 'Union':
+                const union_l1 = layers.find(layer => layer.id === layerIds[operation.layerList[0]])
+                const union_l2 = layers.find(layer => layer.id === layerIds[operation.layerList[1]])
+                var unionLayer = Union(union_l1, union_l2)
+                addNewLayer(event, unionLayer)
                 break;
             case 'Difference':
                 const diff_l1 = layers.find(layer => layer.id === layerIds[operation.layerList[0]])
                 const diff_l2 = layers.find(layer => layer.id === layerIds[operation.layerList[1]])
-                var diff = difference(diff_l1.data.features[0], diff_l2.data.features[0])
-                const differenceLayer = {
-                    id: operation.title + '_' + diff_l1.id + '_' + diff_l2.id,
-                    data: diff,
-                    addedToMap: false,
-                    color: getRandomColor()
-                }
-                if (differenceLayer) {
-                    addLayer(differenceLayer)
-                } else {
-                    alert("No area to subtract")
-                }
-                event.preventDefault()
-                setLayerIds([])
+                var diffLayer = Difference(diff_l1, diff_l2)
+                addNewLayer(event, diffLayer)
                 break;
             default:
                 alert("Defaulted")
         }
+    }
+    const addNewLayer = (event, newLayer) => {
+        if (newLayer) {
+            addLayer(newLayer)
+        } else {
+            alert("No area to subtract")
+        }
+        event.preventDefault()
+        setLayerIds([])
     }
 
     return (
@@ -82,7 +61,23 @@ const OperationModal = ({ operation, layers, addLayer }) => {
             </Row>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{operation.title}</Modal.Title>
+                    <Modal.Title>{operation.title}
+                        <OverlayTrigger
+                            trigger="hover"
+                            key="right"
+                            placement="right"
+                            overlay={
+                                <Popover>
+                                    <Popover.Title as="h3">Help</Popover.Title>
+                                    <Popover.Content>
+                                        {operation.description}
+                                    </Popover.Content>
+                                </Popover>
+                            }
+                        >
+                            <FaInfoCircle style={{ margin: 4 }} />
+                        </OverlayTrigger>
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>

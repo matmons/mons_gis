@@ -1,13 +1,34 @@
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
-
 import Navbar from "./Navbar/Navbar"
+
+const mapStyle = {
+	position: "absolute",
+	top: 0,
+	bottom: 0,
+	right: 0,
+	left: 0,
+	zIndex: "-1",
+};
+
+const menuStyle = {
+	position: "absolute",
+	top: 0,
+	right: 0,
+	margin: 10,
+	padding: 10,
+	background: "white",
+	zIndex: "1",
+	display: "flex",
+};
+
 const backgroundLayers = [
 	{ id: "streets-v11", name: "Streets" },
 	{ id: "light-v10", name: "Light" },
 	{ id: "dark-v10", name: "Dark" },
 	{ id: "satellite-v9", name: "Satellite" },
 ];
+
 mapboxgl.accessToken = "pk.eyJ1IjoibW9uc2VtIiwiYSI6ImNraG4yc2syaTBiZ24ydGwxOTg0ZnJiMG0ifQ.B3OT7lkRhmt4w5lTa9fJ2w"
 
 const Map = () => {
@@ -83,11 +104,10 @@ const Map = () => {
 
 	return (
 		<div>
-			{/* <Sidebar layers={layers} addLayer={addLayerToState} removeLayer={removeLayerFromState} toggleVisibility={toggleVisibility} /> */}
 			<Navbar map={map} layers={layers} addLayer={addLayerToState} removeLayer={removeLayerFromState} toggleVisibility={toggleVisibility} />
-			<div className="menuStyle">
+			<div style={menuStyle}>
 				{backgroundLayers.map((backgroundLayer) => (
-					<div key={backgroundLayer.id}>
+					<div key={backgroundLayer.id} style={{ margin: 4 }}>
 						<input
 							id={backgroundLayer.id}
 							type="radio"
@@ -99,11 +119,11 @@ const Map = () => {
 							}}
 							defaultChecked={backgroundLayer.id === backgroundLayerID}
 						/>
-						<label>{backgroundLayer.name}</label>
+						<label style={{ margin: 2 }}>{backgroundLayer.name}</label>
 					</div>
 				))}
 			</div>
-			<div ref={(el) => (mapContainer.current = el)} className="mapContainer" />
+			<div ref={(el) => (mapContainer.current = el)} style={mapStyle} />
 		</div>
 	)
 

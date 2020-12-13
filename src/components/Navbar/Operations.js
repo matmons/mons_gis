@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap'
 import { RiArrowDropDownLine, RiArrowDropRightLine } from 'react-icons/ri'
 import { FaTools } from 'react-icons/fa'
 import OperationModal from "./OperationModal"
-import OperationList from "../Operations/OperationList"
+import OperationList from "../../helpers/OperationList"
 
 const OperationItem = ({ layers, addLayer }) => {
     const [dropdown, toggleDropdown] = useState(false)
