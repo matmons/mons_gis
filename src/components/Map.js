@@ -72,7 +72,7 @@ const Map = () => {
 						},
 						'paint': {
 							'fill-color': layer.color,
-							'fill-opacity': 0.4
+							'fill-opacity': 0.6
 						}
 					});
 					layer.addedToMap = true;

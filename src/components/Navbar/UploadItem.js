@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react'
 import { FaUpload } from "react-icons/fa"
 import { Row, Col, Modal, Button } from "react-bootstrap"
 import { useDropzone } from "react-dropzone"
+import shp from 'shpjs'
 
 import getRandomColor from "./../../helpers/getRandomColor"
 
@@ -11,10 +12,11 @@ const UploadItem = ({ addLayer }) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const convertJSONToLayer = (jsonString) => {
+    const convertJSONToLayer = (jsonString, filename) => {
         const GeoJSON = JSON.parse(jsonString);
         const newLayer = {
-            id: GeoJSON.name ? GeoJSON.name : (Math.floor(Math.random() * 1000)).toString(),
+            id: (Math.floor(Math.random() * 1000)).toString(),
+            name: filename,
             data: GeoJSON,
             addedToMap: false,
             color: getRandomColor()
@@ -22,18 +24,42 @@ const UploadItem = ({ addLayer }) => {
         addLayer(newLayer);
     }
 
-    const onDrop = useCallback((file) => {
+    const onDrop = useCallback((allFiles) => {
+        const file = allFiles[0]
+        const fileName = file.name.split('.')
+
         const reader = new FileReader()
 
         reader.onabort = () => console.log('Reading was aborted')
         reader.onerror = () => console.log('Reading has failed')
+        switch (fileName[1]) {
+            case 'geojson':
+                reader.onload = function () {
+                    convertJSONToLayer(reader.result, fileName[0])
+                }
+                reader.readAsText(file)
+                break;
+            case 'zip':
+                reader.onload = function () {
+                    shp(reader.result).then(function (json) {
+                        const newLayer = {
+                            id: (Math.floor(Math.random() * 1000)).toString(),
+                            name: fileName[0],
+                            data: json,
+                            addedToMap: false,
+                            color: getRandomColor()
+                        }
+                        addLayer(newLayer);
+                    })
 
-        reader.onload = function () {
-            convertJSONToLayer(reader.result)
+                }
+                reader.readAsArrayBuffer(file)
+                break;
+            default:
+                alert("Mons GIS only supports files of type geojson or zipped shapefile")
         }
-        reader.readAsText(file[0])
 
-    }, [])
+    })
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
     return (

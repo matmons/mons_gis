@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Row, Col, OverlayTrigger, Popover } from "react-bootstrap"
 import { IconContext } from "react-icons"
 import { FaEye, FaEyeSlash, FaTimes, FaCircle } from 'react-icons/fa';
 import { CirclePicker } from "react-color"
+import ContentEditable from 'react-contenteditable'
 
 const LayerMenuItem = ({ map, layer, removeLayer }) => {
     const [localColorIcon, setColor] = useState(layer.color)
@@ -35,7 +36,9 @@ const LayerMenuItem = ({ map, layer, removeLayer }) => {
                 }} />
             }
             </Col>
-            <Col md={4}>{layer.id}</Col>
+            <Col md={4}>
+                {layer.name ? layer.name : layer.id}
+            </Col>
             <OverlayTrigger
                 trigger="click"
                 key="right"
