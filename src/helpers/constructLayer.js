@@ -1,3 +1,7 @@
+/*
+This file returns the styling of a layer depending on the types of features the layer consists of.
+*/
+
 const constructLayer = (layer) => {
     var pointLayer = {
         'id': layer.id,
@@ -36,7 +40,7 @@ const constructLayer = (layer) => {
         }
     }
     if (layer.data.type === 'FeatureCollection') {
-        console.log("FC", layer.data.features[0])
+        console.log("FC construct layer", layer)
         switch (layer.data.features[0].geometry.type) {
             case 'Point':
             case 'MultiPoint':
@@ -53,7 +57,7 @@ const constructLayer = (layer) => {
                 return polygonLayer;
         }
     } else if (layer.data.type === 'Feature') {
-        console.log("Feature", layer.data.geometry)
+        console.log("Feature construct layer", layer)
         switch (layer.data.geometry.type) {
             case 'Point':
             case 'MultiPoint':

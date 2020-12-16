@@ -1,7 +1,13 @@
+/**
+ * 
+ * @param {[List of all features]} featureList 
+ * @param {Name of property to filter by} property 
+ * @param {How to filter by property} operator 
+ * @param {What value the filter compares against} value 
+ * @returns All features that match the requirement.
+ */
 
 const propertyFilter = (featureList, property, operator, value) => {
-    // layer.data.features[i].properties -> en liste med egenskaper til dette laget.
-    // list of properties for that layer, assuiming that all featuers have equal properties.
     switch (operator) {
         case '=':
             return featureList.filter(feature => feature.properties[property] === value)

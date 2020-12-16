@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Row, Button, Modal, Col, Form, Popover, OverlayTrigger } from 'react-bootstrap'
 import { FaInfoCircle } from 'react-icons/fa'
-import { Buffer, Intersect, Union, Difference } from '../../helpers/operationFunctions'
+import { Buffer, Intersect, Union, Difference, Clustering } from '../../../helpers/operationFunctions'
 
-const OperationModal = ({ operation, layers, addLayer }) => {
+const OperationModal = ({ operation, lrs, addLayer }) => {
     const [layerIds, setLayerIds] = useState({})
     const [parameters, setParameters] = useState({})
     const [show, setShow] = useState(false);
@@ -14,27 +14,32 @@ const OperationModal = ({ operation, layers, addLayer }) => {
     const handleSubmit = (event) => {
         switch (operation.title) {
             case 'Buffer':
-                const buff_l1 = layers.find(layer => layer.id === layerIds[operation.layerList[0]])
+                const buff_l1 = lrs.find(layer => layer.id === layerIds[operation.layerList[0]])
                 var bufferLayer = Buffer(buff_l1, parameters['Radius'])
                 addNewLayer(event, bufferLayer)
                 break;
             case 'Intersect':
-                const int_l1 = layers.find(layer => layer.id === layerIds[operation.layerList[0]])
-                const int_l2 = layers.find(layer => layer.id === layerIds[operation.layerList[1]])
+                const int_l1 = lrs.find(layer => layer.id === layerIds[operation.layerList[0]])
+                const int_l2 = lrs.find(layer => layer.id === layerIds[operation.layerList[1]])
                 var intersected = Intersect(int_l1, int_l2)
                 addNewLayer(event, intersected)
                 break;
             case 'Union':
-                const union_l1 = layers.find(layer => layer.id === layerIds[operation.layerList[0]])
-                const union_l2 = layers.find(layer => layer.id === layerIds[operation.layerList[1]])
+                const union_l1 = lrs.find(layer => layer.id === layerIds[operation.layerList[0]])
+                const union_l2 = lrs.find(layer => layer.id === layerIds[operation.layerList[1]])
                 var unionLayer = Union(union_l1, union_l2)
                 addNewLayer(event, unionLayer)
                 break;
             case 'Difference':
-                const diff_l1 = layers.find(layer => layer.id === layerIds[operation.layerList[0]])
-                const diff_l2 = layers.find(layer => layer.id === layerIds[operation.layerList[1]])
+                const diff_l1 = lrs.find(layer => layer.id === layerIds[operation.layerList[0]])
+                const diff_l2 = lrs.find(layer => layer.id === layerIds[operation.layerList[1]])
                 var diffLayer = Difference(diff_l1, diff_l2)
                 addNewLayer(event, diffLayer)
+                break;
+            case 'Cluster':
+                const cluster_l1 = lrs.find(layer => layer.id === layerIds[operation.layerList[0]])
+                var clusterLayer = Clustering(cluster_l1, parameters['Number of Clusters'])
+                addNewLayer(event, clusterLayer)
                 break;
             default:
                 alert("Defaulted")
@@ -91,7 +96,7 @@ const OperationModal = ({ operation, layers, addLayer }) => {
                                         return layerIds
                                     })} required>
                                         <option key="blank" default value={null}>---</option>
-                                        {layers.map(layer => (<option key={layer.id} value={layer.id}>{layer.name ? layer.name : layer.id}</option>))}
+                                        {lrs.map(layer => (<option key={layer.id} value={layer.id}>{layer.name ? layer.name : layer.id}</option>))}
                                     </Form.Control>
                                 </Form.Group>
                             )
@@ -101,7 +106,8 @@ const OperationModal = ({ operation, layers, addLayer }) => {
                                 <Form.Group key={key} controlId={key.toString()} >
                                     <Form.Label>{key.toString()}</Form.Label>
                                     <Form.Control type={value} onChange={(e) => setParameters((params) => {
-                                        params[key] = e.target.value
+                                        params[key] = e.target.value;
+                                        console.log(e.target.value)
                                         return params
                                     })} />
                                 </Form.Group>

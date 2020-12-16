@@ -1,6 +1,20 @@
+/**
+ * This is the website's main file, which creates the map and manages layers.
+ * 
+ * To summerize:
+ * Maps and menus are given a defualt styling. 
+ * The basemap is set/managed in this file.
+ * The map is initialized
+ * Layers are added and removed
+ * 
+ * Serves as the parent to all other components in the application.
+ * 
+ * Distributes information to the navigation bar.
+ */
+
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
-import Navbar from "./Navbar/Navbar"
+import NavBar from "./NavBar/NavBar.js"
 
 import constructLayer from './../helpers/constructLayer'
 
@@ -95,7 +109,7 @@ const Map = () => {
 
 	return (
 		<div>
-			<Navbar map={map} layers={layers} addLayer={addLayerToState} removeLayer={removeLayerFromState} toggleVisibility={toggleVisibility} />
+			<NavBar map={map} lrs={layers} addLayer={addLayerToState} removeLayer={removeLayerFromState} toggleVisibility={toggleVisibility} />
 			<div style={menuStyle}>
 				{backgroundLayers.map((backgroundLayer) => (
 					<div key={backgroundLayer.id} style={{ margin: 4 }}>

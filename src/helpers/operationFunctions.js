@@ -1,12 +1,18 @@
+/**
+ * This file contains all functions based on Turf. Each operation takes a layer and
+ * releveant parameters as input, the transformation is done and a new layer is created.
+ * The output is formated as a layer which can be added to a map.
+ */
+
 import difference from '@turf/difference'
 import intersect from '@turf/intersect'
 import buffer from '@turf/buffer'
 import union from '@turf/union'
+import clustersKmeans from '@turf/clusters-kmeans'
 import getRandomColor from './getRandomColor'
 
 export const Buffer = (layer1, radius) => {
-    // Unecessary? Buffer works on collections.
-    // const l1 = detailLevelHelper(layer1.data)
+
     var buff = buffer(layer1.data, radius)
 
     const newLayer = {
@@ -54,6 +60,18 @@ export const Difference = (layer1, layer2) => {
         id: 'Diff_' + layer1.name + '_' + layer2.name,
         name: 'Diff_' + layer1.name + '_' + layer2.name,
         data: diff,
+        addedToMap: false,
+        color: getRandomColor()
+    }
+    return newLayer
+}
+export const Clustering = (layer1, clusterCount) => {
+    var cluster = clustersKmeans(layer1.data, { numberOfClusters: clusterCount })
+
+    const newLayer = {
+        id: 'Cluster_' + layer1.name,
+        name: 'Cluster_' + layer1.name,
+        data: cluster,
         addedToMap: false,
         color: getRandomColor()
     }

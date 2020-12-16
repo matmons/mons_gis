@@ -1,4 +1,11 @@
+/**
+ * 
+ * 
+ * @param {*} data 
+ */
+
 const getDisplayType = (data) => {
+    console.log(data)
     if (data.type === 'FeatureCollection') {
         switch (data.features[0].geometry.type) {
             case 'Point':

@@ -1,3 +1,20 @@
+/**
+ * This is a list of all standard operations where the turf library is used. This file has 
+ * performs no actions or modifies any data. In the operation list, each operation is 
+ * standardized to minimize the amount of code required to support new operations.
+ *
+ * To add a new turf operation to Mons GIS, one has to create a variable with the parameters:
+ * - id
+ * - title
+ * - layerList (number of layers used in the operation)
+ * - parameters (parameters and input type used in the operation)
+ * - description
+ * 
+ * This information is used to create a customized pop up with the desired input options. 
+ * 
+ * For more details on operations, check out in operationModal under components/Navbar.
+ */
+
 var buffer = {
     id: 1,
     title: 'Buffer',
@@ -27,6 +44,13 @@ var difference = {
     layerList: ['Layer 1', 'Layer 2'],
     parameters: {},
     description: "The Difference Operation finds the difference between two polygons by clipping the second polygon from the first."
+}
+var difference = {
+    id: 5,
+    title: 'Clustering',
+    layerList: ['Layer 1'],
+    parameters: { 'Number of Clusters': 'number' },
+    description: "The Clustering Operation takes a collection of points and returns the resulting K means clusters. The number of clusters required depends on your applicaiton."
 }
 
 const OperationList = [buffer, intersect, union, difference]

@@ -1,13 +1,17 @@
+/**
+ * 
+ */
+
 import React, { useState, useCallback } from 'react'
 import { FaUpload } from 'react-icons/fa'
 import { Row, Col, Modal, Button } from 'react-bootstrap'
 import { useDropzone } from 'react-dropzone'
 import shp from 'shpjs'
 
-import getRandomColor from './../../helpers/getRandomColor'
-import getDisplayType from './../../helpers/getDisplayType'
+import getRandomColor from '../../../helpers/getRandomColor'
+import getDisplayType from '../../../helpers/getDisplayType'
 
-const UploadItem = ({ addLayer }) => {
+const Upload = ({ addLayer }) => {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -97,4 +101,4 @@ const UploadItem = ({ addLayer }) => {
         </>
     )
 }
-export default UploadItem
+export default Upload

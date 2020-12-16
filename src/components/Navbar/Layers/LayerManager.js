@@ -1,10 +1,21 @@
+/**
+ * The LayerManager component manages a layer.
+ * 
+ * Each layer has its own LayerManager.
+ * 
+ * The component manages:
+ *  - Visibility
+ *  - Color
+ *  - Deletion of layer
+ */
+
 import React, { useState } from 'react'
 import { Row, Col, OverlayTrigger, Popover } from "react-bootstrap"
 import { IconContext } from "react-icons"
 import { FaEye, FaEyeSlash, FaTimes, FaCircle } from 'react-icons/fa';
 import { CirclePicker } from "react-color"
 
-const LayerMenuItem = ({ map, layer, removeLayer }) => {
+const LayerManager = ({ map, layer, removeLayer }) => {
     const [localColorIcon, setColor] = useState(layer.color)
     const [localEyeIcon, setEye] = useState("visible")
 
@@ -45,7 +56,7 @@ const LayerMenuItem = ({ map, layer, removeLayer }) => {
                 }} />
             }
             </Col>
-            <Col md={4}>
+            <Col md={4} style={{ overflow: 'auto' }}>
                 {layer.name ? layer.name : layer.id}
             </Col>
             <OverlayTrigger
@@ -73,4 +84,4 @@ const LayerMenuItem = ({ map, layer, removeLayer }) => {
     )
 }
 
-export default LayerMenuItem;
+export default LayerManager;

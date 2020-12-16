@@ -1,9 +1,9 @@
 import React from 'react'
 import { Container, Col } from "react-bootstrap"
-import UploadItem from "./UploadItem"
+import Upload from "./Upload/Upload"
 import NavHeader from "./NavHeader"
-import LayerItem from "./LayerItem"
-import Operations from "./Operations"
+import Layers from "./Layers/Layers"
+import Operations from "./Operations/Operations"
 
 const navStyle = {
     position: "absolute",
@@ -17,19 +17,19 @@ const navStyle = {
     zIndex: "1",
 }
 
-const Navbar = ({ map, layers, addLayer, removeLayer }) => {
+const NavBar = ({ map, lrs, addLayer, removeLayer }) => {
 
     return (
         <>
             <Col md={3}>
                 <Container style={navStyle}>
                     <NavHeader />
-                    <Operations layers={layers} addLayer={addLayer} />
-                    <LayerItem map={map} layers={layers} removeLayer={removeLayer} />
-                    <UploadItem addLayer={addLayer} />
+                    <Operations lrs={lrs} addLayer={addLayer} />
+                    <Layers map={map} lrs={lrs} removeLayer={removeLayer} />
+                    <Upload addLayer={addLayer} />
                 </Container>
             </Col>
         </>
     )
 }
-export default Navbar
+export default NavBar
