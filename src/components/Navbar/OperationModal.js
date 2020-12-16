@@ -38,13 +38,14 @@ const OperationModal = ({ operation, layers, addLayer }) => {
                 break;
             default:
                 alert("Defaulted")
+                break;
         }
     }
     const addNewLayer = (event, newLayer) => {
         if (newLayer) {
             addLayer(newLayer)
         } else {
-            alert("No area to subtract")
+            alert("No resulting area")
         }
         event.preventDefault()
         setLayerIds([])

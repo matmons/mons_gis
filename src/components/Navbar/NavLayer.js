@@ -21,7 +21,17 @@ const LayerMenuItem = ({ map, layer, removeLayer }) => {
     const colorChange = (color, event) => {
         setColor(color.hex)
         layer.color = color.hex
-        map.setPaintProperty(layer.id, "fill-color", color.hex);
+        switch (layer.displayType) {
+            case "Line":
+                map.setPaintProperty(layer.id, 'line-color', color.hex)
+                break;
+            case "Polygon":
+                map.setPaintProperty(layer.id, "fill-color", color.hex)
+                break;
+            default:
+                map.setPaintProperty(layer.id, "fill-color", color.hex);
+                break;
+        }
     };
     return (
         <Row>

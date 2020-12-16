@@ -1,10 +1,11 @@
 import React, { useState, useCallback } from 'react'
-import { FaUpload } from "react-icons/fa"
-import { Row, Col, Modal, Button } from "react-bootstrap"
-import { useDropzone } from "react-dropzone"
+import { FaUpload } from 'react-icons/fa'
+import { Row, Col, Modal, Button } from 'react-bootstrap'
+import { useDropzone } from 'react-dropzone'
 import shp from 'shpjs'
 
-import getRandomColor from "./../../helpers/getRandomColor"
+import getRandomColor from './../../helpers/getRandomColor'
+import getDisplayType from './../../helpers/getDisplayType'
 
 const UploadItem = ({ addLayer }) => {
     const [show, setShow] = useState(false);
@@ -19,7 +20,8 @@ const UploadItem = ({ addLayer }) => {
             name: filename,
             data: GeoJSON,
             addedToMap: false,
-            color: getRandomColor()
+            color: getRandomColor(),
+            displayType: getDisplayType(GeoJSON)
         }
         addLayer(newLayer);
     }
@@ -42,12 +44,14 @@ const UploadItem = ({ addLayer }) => {
             case 'zip':
                 reader.onload = function () {
                     shp(reader.result).then(function (json) {
+                        console.log(json)
                         const newLayer = {
-                            id: (Math.floor(Math.random() * 1000)).toString(),
+                            id: (Math.floor(Math.random() * 10000)).toString(),
                             name: fileName[0],
                             data: json,
                             addedToMap: false,
-                            color: getRandomColor()
+                            color: getRandomColor(),
+                            displayType: getDisplayType(json)
                         }
                         addLayer(newLayer);
                     })
@@ -56,7 +60,7 @@ const UploadItem = ({ addLayer }) => {
                 reader.readAsArrayBuffer(file)
                 break;
             default:
-                alert("Mons GIS only supports files of type geojson or zipped shapefile")
+                alert('Mons GIS only supports files of type geojson or zipped shapefile')
         }
 
     })

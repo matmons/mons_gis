@@ -10,7 +10,8 @@ export const Buffer = (layer1, radius) => {
     var buff = buffer(layer1.data, radius)
 
     const newLayer = {
-        id: 'Buff_' + layer1.id,
+        id: 'Buff_' + layer1.name,
+        name: 'Buff_' + layer1.name,
         data: buff,
         addedToMap: false,
         color: getRandomColor()
@@ -23,7 +24,8 @@ export const Intersect = (layer1, layer2) => {
     var intersectLayer = intersect(l1, l2)
 
     const newLayer = {
-        id: 'IS_' + layer1.id + '_' + layer2.id,
+        id: 'IS_' + layer1.name + '_' + layer2.name,
+        name: 'IS_' + layer1.name + '_' + layer2.name,
         data: intersectLayer,
         addedToMap: false,
         color: getRandomColor()
@@ -34,7 +36,8 @@ export const Union = (layer1, layer2) => {
     var unionLayer = union(layer1.data, layer2.data)
 
     const newLayer = {
-        id: 'Union_' + layer1.id + '_' + layer2.id,
+        id: 'Union_' + layer1.name + '_' + layer2.name,
+        name: 'Union_' + layer1.name + '_' + layer2.name,
         data: unionLayer,
         addedToMap: false,
         color: getRandomColor()
@@ -48,7 +51,8 @@ export const Difference = (layer1, layer2) => {
     var diff = difference(l1, l2)
 
     const newLayer = {
-        id: 'Diff_' + layer1.id + '_' + layer2.id,
+        id: 'Diff_' + layer1.name + '_' + layer2.name,
+        name: 'Diff_' + layer1.name + '_' + layer2.name,
         data: diff,
         addedToMap: false,
         color: getRandomColor()

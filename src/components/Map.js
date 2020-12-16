@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import Navbar from "./Navbar/Navbar"
 
+import constructLayer from './../helpers/constructLayer'
+
 const mapStyle = {
 	position: "absolute",
 	top: 0,
@@ -63,18 +65,7 @@ const Map = () => {
 						'type': 'geojson',
 						'data': layer.data
 					});
-					map.addLayer({
-						'id': layer.id,
-						'type': 'fill',
-						'source': layer.id,
-						'layout': {
-							visibility: 'visible'
-						},
-						'paint': {
-							'fill-color': layer.color,
-							'fill-opacity': 0.6
-						}
-					});
+					map.addLayer(constructLayer(layer));
 					layer.addedToMap = true;
 				})
 		}
