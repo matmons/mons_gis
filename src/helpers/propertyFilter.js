@@ -8,21 +8,26 @@
  */
 
 const propertyFilter = (featureList, property, operator, value) => {
-    switch (operator) {
-        case '=':
-            return featureList.filter(feature => feature.properties[property] === value)
-        case '<=':
-            return featureList.filter(feature => feature.properties[property] <= value)
-        case '>=':
-            return featureList.filter(feature => feature.properties[property] >= value)
-        case '<':
-            return featureList.filter(feature => feature.properties[property] < value)
-        case '>':
-            return featureList.filter(feature => feature.properties[property] > value)
-        default:
-            alert("Operator not found, returns empty list.")
-            return []
+    if (typeof value === 'string') {
+        return featureList.filter(feature => feature.properties[property] === value)
+    } else {
+        switch (operator) {
+            case '=':
+                return featureList.filter(feature => parseFloat(feature.properties[property]) === value)
+            case '<=':
+                return featureList.filter(feature => parseFloat(feature.properties[property]) <= value)
+            case '>=':
+                return featureList.filter(feature => parseFloat(feature.properties[property]) >= value)
+            case '<':
+                return featureList.filter(feature => parseFloat(feature.properties[property]) < value)
+            case '>':
+                return featureList.filter(feature => parseFloat(feature.properties[property]) > value)
+            default:
+                alert("Operator not found, returns empty list.")
+                return []
+        }
     }
+
 }
 
 export default propertyFilter;
