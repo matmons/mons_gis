@@ -73,6 +73,7 @@ const PropertyFilterModal = ({ lrs, addLayer }) => {
         }
         const newLayer = {
             id: layer.name + "_filtered",
+            name: layer.name + "_filtered",
             data: ffCollection,
             addedToMap: false,
             color: getRandomColor()
