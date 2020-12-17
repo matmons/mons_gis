@@ -14,7 +14,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
-import NavBar from "./NavBar/NavBar.js"
+import NavBar from "./NavBar/NavBar"
 
 import constructLayer from './../helpers/constructLayer'
 
