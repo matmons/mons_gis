@@ -1,20 +1,20 @@
 import React from 'react'
-import { Container, Col } from "react-bootstrap"
-import Upload from "./Upload/Upload"
-import NavHeader from "./NavHeader"
-import Layers from "./Layers/Layers"
-import Operations from "./Operations/Operations"
+import { Container, Col } from 'react-bootstrap'
+import Upload from './Upload/Upload'
+import NavHeader from './NavHeader'
+import Layers from './Layers/Layers'
+import Operations from './Operations/Operations'
 
 const navStyle = {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
-    width: "100%",
-    background: "white",
-    color: "black",
-    padding: "1em",
+    width: '100%',
+    background: 'rgba(255,255,255,0.7)',
+    color: 'black',
+    padding: '1em',
     margin: 10,
-    zIndex: "1",
+    zIndex: '1',
 }
 
 const NavBar = ({ map, lrs, addLayer, removeLayer }) => {

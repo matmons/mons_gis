@@ -86,8 +86,8 @@ const Upload = ({ addLayer }) => {
                         <input {...getInputProps()} />
                         {
                             isDragActive ?
-                                <p style={{ borderStyle: 'dotted' }}>Drop the files here ...</p> :
-                                <p style={{ textDecorationLine: 'underline' }}>Drag & drop files here or click to select files</p>
+                                <p style={{ borderStyle: 'dotted' }}>Drop the file here ...</p> :
+                                <p style={{ textDecorationLine: 'underline' }}>Drag & drop a file here or click to select file</p>
                         }
                     </div>
                 </Modal.Body>
