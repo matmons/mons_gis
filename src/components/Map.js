@@ -15,8 +15,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import NavBar from "./NavBar/NavBar"
-
 import constructLayer from './../helpers/constructLayer'
+import getCoords from './../helpers/getCoords'
+import getDescription from '../helpers/getDescription';
 
 const mapStyle = {
 	position: "absolute",
@@ -62,6 +63,11 @@ const Map = () => {
 				zoom: 12.2
 			});
 			map.on("load", () => {
+				map.loadImage('https://cdn4.iconfinder.com/data/icons/social-messaging-productivity-5/128/map-location-person-512.png',
+					function (error, image) {
+						if (error) throw error;
+						map.addImage('marker', image)
+					})
 				setMap(map);
 				map.resize();
 			});
@@ -81,6 +87,35 @@ const Map = () => {
 					});
 					map.addLayer(constructLayer(layer));
 					layer.addedToMap = true;
+					if (layer.displayType === 'Point') {
+						map.on('click', layer.id, function (e) {
+							var coordinates = getCoords(e)
+							//e.features[0].geometry.coordinates.slice();
+							var description = getDescription(e)
+							// Ensure that if the map is zoomed out such that multiple
+							// copies of the feature are visible, the popup appears
+							// over the copy being pointed to.
+							while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+								coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+							}
+
+							new mapboxgl.Popup()
+								.setLngLat(coordinates)
+								.setHTML(description)
+								.addTo(map);
+						});
+
+						// Change the cursor to a pointer when the mouse is over the places layer.
+						map.on('mouseenter', layer.id, function () {
+							map.getCanvas().style.cursor = 'pointer';
+						});
+
+						// Change it back to a pointer when it leaves.
+						map.on('mouseleave', layer.id, function () {
+							map.getCanvas().style.cursor = '';
+						});
+					}
+
 				})
 		}
 		if (map && layers) updateMap(map, layers)

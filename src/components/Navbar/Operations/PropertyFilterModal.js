@@ -27,28 +27,26 @@ const PropertyFilterModal = ({ lrs, addLayer }) => {
     const [propertyValues, setPropertyValues] = useState({})
 
     const handlePropertyChange = (input) => {
-        console.log(input)
-        const property = input.split(",")[0]
-        const value = input.split(",")[1]
-        if (isNumber(value)) {
-            setProperty([property, 'number'])
+        if (input === '---') {
+            setProperty();
         } else {
-            setProperty([property, typeof value])
+            const property = input.split(",")[0]
+            const value = input.split(",")[1]
+            if (isNumber(value)) {
+                setProperty([property, 'number'])
+            } else {
+                setProperty([property, typeof value])
+            }
         }
-
     }
     const handleLayerSelect = (id) => {
-        console.log("id", id)
         if (id === '---') {
             setLayer();
             setPropertyValues();
         } else {
             const selectedLayer = lrs.find(layer => layer.id === id)
             const uniqueValues = getUniqueValues(selectedLayer)
-            console.log(uniqueValues)
-            // Object.entries(uniqueValues).forEach(([key, value]) => {
-            //     uniqueValues[key] = value.sort((a, b) => a - b)
-            // });
+
             setLayer(selectedLayer)
             setPropertyValues(uniqueValues)
         }
@@ -60,37 +58,45 @@ const PropertyFilterModal = ({ lrs, addLayer }) => {
         setProperty();
         setOperator()
         setValue()
-
     }
     const handleShow = () => setShow(true);
 
     const handleSubmit = (event) => {
-        const filteredFeatureList = propertyFilter(layer.data.features, property[0], operator, value)
-        console.log("ffl", filteredFeatureList)
-        const ffCollection = {
-            type: 'FeatureCollection',
-            features: filteredFeatureList
+        if (operator === '---' || !value) {
+            handleClose()
+            alert('Operator or value is invalid, please start again.')
+        } else {
+            const filteredFeatureList = propertyFilter(layer.data.features, property[0], operator, value)
+            if (filteredFeatureList.length === 0) {
+                alert('No features match the defined rules.')
+            } else {
+                const ffCollection = {
+                    type: 'FeatureCollection',
+                    features: filteredFeatureList
+                }
+                const newLayer = {
+                    id: layer.name + "_filtered" + (Math.floor(Math.random() * 1000)).toString(),
+                    name: layer.name + "_filtered",
+                    data: ffCollection,
+                    addedToMap: false,
+                    color: getRandomColor()
+                }
+                addLayer(newLayer)
+                event.preventDefault()
+                setLayer(undefined)
+            }
         }
-        const newLayer = {
-            id: layer.name + "_filtered",
-            name: layer.name + "_filtered",
-            data: ffCollection,
-            addedToMap: false,
-            color: getRandomColor()
 
-        }
-        addLayer(newLayer)
-        event.preventDefault()
-        setLayer(undefined)
     }
 
     const valueCondtionalRender = (property) => {
+        console.log(property[1])
         switch (property[1]) {
             case 'string':
                 return (
                     <>
                         <Form.Label>Select Value</Form.Label>
-                        <Form.Control as='select' onChange={(e) => setValue(e.target.value)} key="value">
+                        <Form.Control as='select' onChange={(e) => setValue(e.target.value)} key="strValue">
                             <option key='blank' default value={undefined}>---</option>
                             {propertyValues[property[0]].map(val => <option key={val} value={val}>{val}</option>)}
                         </Form.Control>
@@ -101,7 +107,7 @@ const PropertyFilterModal = ({ lrs, addLayer }) => {
                 return (
                     <>
                         <Form.Label>Select Value</Form.Label>
-                        <Form.Control type={property[1]} onChange={(e) => setValue(e.target.value)} key="value">
+                        <Form.Control type={property[1]} onChange={(e) => setValue(parseFloat(e.target.value))} key="numValue">
                         </Form.Control>
                     </>
                 )

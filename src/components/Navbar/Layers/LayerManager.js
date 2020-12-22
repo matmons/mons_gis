@@ -33,6 +33,9 @@ const LayerManager = ({ map, layer, removeLayer }) => {
         setColor(color.hex)
         layer.color = color.hex
         switch (layer.displayType) {
+            case "Point":
+                map.setPaintProperty(layer.id, 'icon-color', color.hex)
+                break;
             case "Line":
                 map.setPaintProperty(layer.id, 'line-color', color.hex)
                 break;
@@ -59,26 +62,28 @@ const LayerManager = ({ map, layer, removeLayer }) => {
             <Col md={4} style={{ overflow: 'auto' }}>
                 {layer.name ? layer.name : layer.id}
             </Col>
-            <OverlayTrigger
-                trigger="click"
-                key="right"
-                placement="right"
-                overlay={
-                    <Popover>
-                        <Popover.Title as="h3">Change layer color</Popover.Title>
-                        <Popover.Content>
-                            <CirclePicker color={localColorIcon} onChangeComplete={colorChange} />
-                        </Popover.Content>
-                    </Popover>
-                }
-            >
-                <Col md={2}>
-                    <IconContext.Provider value={{ color: localColorIcon }}>
-                        <FaCircle />
-                    </IconContext.Provider>
-                </Col>
-            </OverlayTrigger>
-
+            {layer.displayType === 'Point' ? <Col md={2} /> :
+                <OverlayTrigger
+                    trigger="click"
+                    key="right"
+                    rootClose
+                    placement="right"
+                    overlay={
+                        <Popover>
+                            <Popover.Title as="h3">Change layer color</Popover.Title>
+                            <Popover.Content>
+                                <CirclePicker color={localColorIcon} onChangeComplete={colorChange} />
+                            </Popover.Content>
+                        </Popover>
+                    }
+                >
+                    <Col md={2}>
+                        <IconContext.Provider value={{ color: localColorIcon }}>
+                            <FaCircle />
+                        </IconContext.Provider>
+                    </Col>
+                </OverlayTrigger>
+            }
             <Col md={2}><FaTimes onClick={() => removeLayer(layer.id)} /></Col>
         </Row>
     )

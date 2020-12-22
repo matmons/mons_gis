@@ -48,7 +48,6 @@ const Upload = ({ addLayer }) => {
             case 'zip':
                 reader.onload = function () {
                     shp(reader.result).then(function (json) {
-                        console.log(json)
                         const newLayer = {
                             id: (Math.floor(Math.random() * 10000)).toString(),
                             name: fileName[0],
@@ -87,8 +86,8 @@ const Upload = ({ addLayer }) => {
                         <input {...getInputProps()} />
                         {
                             isDragActive ?
-                                <p>Drop the files here ...</p> :
-                                <p>Drag & drop files here or click to select files</p>
+                                <p style={{ borderStyle: 'dotted' }}>Drop the files here ...</p> :
+                                <p style={{ textDecorationLine: 'underline' }}>Drag & drop files here or click to select files</p>
                         }
                     </div>
                 </Modal.Body>

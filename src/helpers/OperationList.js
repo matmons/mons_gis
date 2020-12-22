@@ -45,7 +45,7 @@ var difference = {
     parameters: {},
     description: "The Difference Operation finds the difference between two polygons by clipping the second polygon from the first."
 }
-var difference = {
+var clustering = {
     id: 5,
     title: 'Clustering',
     layerList: ['Layer 1'],
@@ -53,6 +53,6 @@ var difference = {
     description: "The Clustering Operation takes a collection of points and returns the resulting K means clusters. The number of clusters required depends on your applicaiton."
 }
 
-const OperationList = [buffer, intersect, union, difference]
+const OperationList = [buffer, intersect, union, difference, clustering]
 
 export default OperationList

@@ -5,40 +5,39 @@
  */
 
 const getDisplayType = (data) => {
-    console.log(data)
     if (data.type === 'FeatureCollection') {
         switch (data.features[0].geometry.type) {
             case 'Point':
             case 'MultiPoint':
-                return "Point";
+                return 'Point';
             case 'Line':
             case 'LineString':
             case 'MultiLineString':
-                return "Line";
+                return 'Line';
             case 'Polygon':
             case 'MultiPolygon':
-                return "Polygon";
+                return 'Polygon';
             default:
-                return "Polygon";
+                return 'Polygon';
         }
     } else if (data.type === 'Feature') {
         switch (data.geometry.type) {
             case 'Point':
             case 'MultiPoint':
-                return "Point";
+                return 'Point';
             case 'Line':
             case 'LineString':
             case 'MultiLineString':
-                return "Point";
+                return 'Point';
             case 'Polygon':
             case 'MultiPolygon':
-                return "Polygon";
+                return 'Polygon';
             default:
-                return "Polygon";
+                return 'Polygon';
         }
     }
     else {
-        return "Polygon"
+        return 'Polygon'
     }
 }
 

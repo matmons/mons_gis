@@ -1,6 +1,13 @@
-/*
-This file returns the styling of a layer depending on the types of features the layer consists of.
-*/
+/** 
+ * This file returns the styling of a layer depending on the types of features the layer
+ * consists of.
+ * 
+ * The reason for the construct layer function is because points/lines/areas have
+ * different properties and different types, such as: "fill-color" vs. "line-color".
+ * 
+ * If a line is added to the map with: {type: fill, fill-color: red}, the line will
+ * behave as if a polygon and try to fill the areas between the lines.
+ */
 
 const constructLayer = (layer) => {
     var pointLayer = {
@@ -9,10 +16,11 @@ const constructLayer = (layer) => {
         'source': layer.id,
         'layout': {
             visibility: 'visible',
-            'icon-size': 10
+            'icon-image': 'marker',
+            'icon-size': 0.08
         },
         'paint': {
-            'icon-color': layer.color
+            'icon-color': 'white',
         }
     }
     var lineLayer = {
@@ -24,7 +32,7 @@ const constructLayer = (layer) => {
         },
         'paint': {
             'line-color': layer.color,
-            'line-width': 0.6
+            'line-width': 1
         }
     }
     var polygonLayer = {
@@ -40,11 +48,14 @@ const constructLayer = (layer) => {
         }
     }
     if (layer.data.type === 'FeatureCollection') {
-        console.log("FC construct layer", layer)
+        if (layer.data.features.length === 0) {
+            alert('No features are present in this layer')
+            return polygonLayer
+        }
+        console.log('constructLayer', layer)
         switch (layer.data.features[0].geometry.type) {
             case 'Point':
             case 'MultiPoint':
-                console.log("point case")
                 return pointLayer;
             case 'Line':
             case 'LineString':
@@ -57,7 +68,6 @@ const constructLayer = (layer) => {
                 return polygonLayer;
         }
     } else if (layer.data.type === 'Feature') {
-        console.log("Feature construct layer", layer)
         switch (layer.data.geometry.type) {
             case 'Point':
             case 'MultiPoint':
