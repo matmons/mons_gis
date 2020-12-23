@@ -1,7 +1,7 @@
 /**
  * This is the website's main file, which creates the map and manages layers.
  * 
- * To summerize:
+ * To summarize:
  * Maps and menus are given a defualt styling. 
  * The basemap is set/managed in this file.
  * The map is initialized

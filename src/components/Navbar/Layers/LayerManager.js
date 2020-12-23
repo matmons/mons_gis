@@ -1,12 +1,17 @@
 /**
  * The LayerManager component manages a layer.
  * 
- * Each layer has its own LayerManager.
+ * The layer manager renders different information depening on the layer it gets as 
+ * input. For example, it checks if a layer is a Point-layer or not, and removes the
+ * option to change color if it is. A user is not able to change colors of a Point Layer
+ * in Mons GIS, and should therefore not be given a false hope that he/she can.
  * 
  * The component manages:
  *  - Visibility
  *  - Color
  *  - Deletion of layer
+ * 
+ *  For each layer
  */
 
 import React, { useState } from 'react'

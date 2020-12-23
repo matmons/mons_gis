@@ -1,5 +1,7 @@
 /**
- * The Globe and Mons GIS header of the navigation bar.
+ * The Globe and Mons GIS header of the navigation bar. 
+ * 
+ * There is no functionality/logic in this component.
  */
 
 import React from 'react'

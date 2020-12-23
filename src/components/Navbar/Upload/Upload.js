@@ -1,5 +1,13 @@
 /**
+ * The input of the Upload component takes a function for adding a new layer.
+ * The main funcitonality of the upload component is to dispay a modal where the user 
+ * can click or drag'n'drop files. 
  * 
+ * The file type is check and this component adds the file contents to the map as a 
+ * layer.
+ * 
+ * Necessary utility functionality includes the conversion from "json -> layer" and from
+ * "shapefile -> json -> layer".
  */
 
 import React, { useState, useCallback } from 'react'

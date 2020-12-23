@@ -1,3 +1,6 @@
+/**
+ * Returns a random combination of 6 letters or numbers that make up a hex-color.
+ */
 const getRandomColor = () => {
     var letters = '0123456789ABCDEF';
     var color = '#';

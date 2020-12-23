@@ -1,3 +1,21 @@
+/**
+ * This component takes an operation, all layers and a funciton for adding a new layer
+ * as input.
+ * 
+ * The operation is one of those in OperationList. The OperationModal-component uses 
+ * this information to decide what to display in the modal.
+ * 
+ * The layers are used to display available layers for manipulation. Not all layers are
+ * valid for all operations, therefor this component benefits an function (useEfffect)
+ * that removes invalid layers from this operation.
+ * 
+ * The component should also be (at least) partially resistant to unlogical input data,
+ * and has multiple checks for invalid input.
+ * 
+ * When a form is submitted, this component manipulates/transformes the layer to a new 
+ * layer through the help of the switch funciton(handleSubmit). handleSubmit also adds
+ * the new transformed layer to the map.
+ */
 import React, { useState, useEffect } from 'react'
 import { Row, Button, Modal, Col, Form, Popover, OverlayTrigger } from 'react-bootstrap'
 import { FaInfoCircle } from 'react-icons/fa'

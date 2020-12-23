@@ -1,3 +1,11 @@
+/**
+ * The NavBar component is a very simple component that merily decides what subsections
+ * that is to be rendered in the side menu.
+ * 
+ * In addition, the NavBar passes information from map to the child components (such as
+ * Operations and Layers).
+ */
+
 import React from 'react'
 import { Container, Col } from 'react-bootstrap'
 import Upload from './Upload/Upload'

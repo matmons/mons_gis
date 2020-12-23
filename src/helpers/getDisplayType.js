@@ -1,7 +1,6 @@
 /**
- * 
- * 
- * @param {*} data 
+ * This helper function assists in returning the type of layer the application is 
+ * dealing with.
  */
 
 const getDisplayType = (data) => {

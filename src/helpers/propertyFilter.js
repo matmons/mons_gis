@@ -1,5 +1,4 @@
 /**
- * 
  * @param {[List of all features]} featureList 
  * @param {Name of property to filter by} property 
  * @param {How to filter by property} operator 

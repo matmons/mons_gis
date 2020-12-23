@@ -1,3 +1,18 @@
+/**
+ * This component takes all layers and a funciton for adding a new layer as input.
+ * 
+ * The layers are used to display available layers for manipulation. The component 
+ * utilizes conditional rendinger (conditional display of input fields) baesd on input-
+ * values earlier in the form. The idea is to help the user as much as possible in
+ * creating the rules desired.
+ * 
+ * The component should also be (at least) partially resistant to unlogical input data,
+ * and has multiple checks for invalid input.
+ * 
+ * When a form is submitted, the PropertyFilterModal-component utilizes helper-funcitons
+ * to create a new layer with the features that match the criterea and adds this new
+ * layer to the map.
+ */
 import React, { useState } from 'react'
 import { Row, Button, Modal, Col, Form, Popover, OverlayTrigger } from 'react-bootstrap'
 import { FaInfoCircle } from 'react-icons/fa'

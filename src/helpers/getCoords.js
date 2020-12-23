@@ -1,3 +1,8 @@
+/**
+ * This component return the coordinates of a point. It is used to display the pop-up
+ * you can see when clicking a point in the map.
+ */
+
 const getCoords = (data) => {
     switch (data.type) {
         case 'Feature':

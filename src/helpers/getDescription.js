@@ -1,3 +1,8 @@
+/**
+ * This component returns the description of a point. It is used to retrieve information
+ * you can see when clicking a point in the map.
+ */
+
 const getDescription = (data) => {
     console.log('getdesc', data.features)
     if (data.features[0].layer.id.split('_')[0] === 'Cluster') {
