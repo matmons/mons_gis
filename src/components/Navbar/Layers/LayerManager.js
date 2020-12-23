@@ -15,7 +15,7 @@
  */
 
 import React, { useState } from 'react'
-import { Row, Col, OverlayTrigger, Popover } from "react-bootstrap"
+import { Row, Col, OverlayTrigger, Popover, Form, Modal, Button } from "react-bootstrap"
 import { IconContext } from "react-icons"
 import { FaEye, FaEyeSlash, FaTimes, FaCircle } from 'react-icons/fa';
 import { CirclePicker } from "react-color"
@@ -23,6 +23,12 @@ import { CirclePicker } from "react-color"
 const LayerManager = ({ map, layer, removeLayer }) => {
     const [localColorIcon, setColor] = useState(layer.color)
     const [localEyeIcon, setEye] = useState("visible")
+    const [layerName, setLayerName] = useState(layer.name)
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const toggleVisibility = (layerId) => {
         const visibility = map.getLayoutProperty(layerId, "visibility");
@@ -52,6 +58,10 @@ const LayerManager = ({ map, layer, removeLayer }) => {
                 break;
         }
     };
+    const changeName = (name) => {
+        setLayerName(name)
+        layer.name = name
+    }
     return (
         <Row>
             <Col md={1} />
@@ -64,9 +74,33 @@ const LayerManager = ({ map, layer, removeLayer }) => {
                 }} />
             }
             </Col>
-            <Col md={4} style={{ overflow: 'auto' }}>
+            <Col md={4} style={{ overflow: 'auto' }} onClick={handleShow}>
                 {layer.name ? layer.name : layer.id}
             </Col>
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Change Layer Name</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={e => e.preventDefault()}>
+                        <Form.Group key='nameChange' controlId='nameChange' >
+                            <Form.Label>New Name</Form.Label>
+                            <Form.Control type='string' onChange={(e) => changeName(e.target.value)} />
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" type="submit" onClick={(event) => {
+                        event.preventDefault()
+                        handleClose()
+                    }}>
+                        Change Name
+                    </Button>
+                </Modal.Footer>
+            </Modal>
             {layer.displayType === 'Point' ? <Col md={2} /> :
                 <OverlayTrigger
                     trigger="click"

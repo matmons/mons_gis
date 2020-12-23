@@ -159,7 +159,7 @@ const PropertyFilterModal = ({ lrs, addLayer }) => {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
+                    <Form onSubmit={e => e.preventDefault()}>
                         <Form.Group key="layer" controlId="layer" >
                             <Form.Label>Select Layer</Form.Label>
                             <Form.Control as='select' onChange={(e) => handleLayerSelect(e.target.value)} required>

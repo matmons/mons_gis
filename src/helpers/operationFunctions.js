@@ -20,6 +20,7 @@ import difference from '@turf/difference'
 import intersect from '@turf/intersect'
 import buffer from '@turf/buffer'
 import union from '@turf/union'
+import { polygon } from '@turf/helpers'
 import clustersKmeans from '@turf/clusters-kmeans'
 import getRandomColor from './getRandomColor'
 import getDisplayType from './getDisplayType'
@@ -39,10 +40,39 @@ export const Buffer = (layer1, radius) => {
     return newLayer
 }
 export const Intersect = (layer1, layer2) => {
+    console.log(layer1)
     const l1 = detailLevelHelper(layer1.data)
     const l2 = detailLevelHelper(layer2.data)
-    var newData = intersect(l1, l2)
 
+    var l1_modified = []
+    var l2_modified = []
+
+    if (l1.geometry.type === 'MultiPolygon') {
+        console.log('l1 mp')
+        l1_modified = l1.geometry.coordinates.map(c => polygon(c))
+    } else {
+        l1_modified = [l1]
+    }
+    if (l2.geometry.type === 'MultiPolygon') {
+        l2_modified = l2.geometry.coordinates.map(c => polygon(c))
+    } else {
+        l2_modified = [l2]
+    }
+
+    var newData = {
+        features: [],
+        type: 'FeatureCollection'
+    }
+    for (var f1 of l1_modified) {
+        for (var f2 of l2_modified) {
+            var is = intersect(f1, f2)
+            console.log('is', is)
+            if (is) {
+                newData.features.push(is)
+            }
+        }
+    }
+    console.log('new data', newData)
     const newLayer = {
         id: 'IS_' + layer1.name + '_' + layer2.name + (Math.floor(Math.random() * 1000)).toString(),
         name: 'IS_' + layer1.name + '_' + layer2.name,

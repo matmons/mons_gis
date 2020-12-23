@@ -130,7 +130,7 @@ const OperationModal = ({ operation, lrs, addLayer }) => {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
+                    <Form onSubmit={e => e.preventDefault()}>
                         {operation.layerList.map((l) => {
                             return (
                                 <Form.Group key={l} controlId={l} >

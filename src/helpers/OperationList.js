@@ -20,7 +20,7 @@ var buffer = {
     title: 'Buffer',
     layerList: ['Layer 1'],
     parameters: { Radius: 'number' },
-    description: "The Buffer Operation takes the features from a source vector layer and creates a buffer area of a specified distance around, storing the result on a Result Layer."
+    description: "The Buffer Operation takes the features from a source vector layer and creates a buffer area of a specified distance around, storing the result on a Result Layer. The radius is specified in kilometers. Use '0.1' for decimals, commas ('0,1') are not accepted."
 }
 var intersect = {
     id: 2,

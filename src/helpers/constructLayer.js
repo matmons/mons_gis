@@ -52,7 +52,6 @@ const constructLayer = (layer) => {
             alert('No features are present in this layer')
             return polygonLayer
         }
-        console.log('constructLayer', layer)
         switch (layer.data.features[0].geometry.type) {
             case 'Point':
             case 'MultiPoint':

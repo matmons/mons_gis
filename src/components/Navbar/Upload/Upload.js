@@ -11,13 +11,15 @@
  */
 
 import React, { useState, useCallback } from 'react'
-import { FaUpload } from 'react-icons/fa'
-import { Row, Col, Modal, Button } from 'react-bootstrap'
+import { FaUpload, FaInfoCircle } from 'react-icons/fa'
+import { Row, Col, Modal, Button, Popover, OverlayTrigger } from 'react-bootstrap'
 import { useDropzone } from 'react-dropzone'
 import shp from 'shpjs'
 
 import getRandomColor from '../../../helpers/getRandomColor'
 import getDisplayType from '../../../helpers/getDisplayType'
+
+const uploadHelp = "Please upload a single file at a time. This application supports geojson and zipped shapefiles."
 
 const Upload = ({ addLayer }) => {
     const [show, setShow] = useState(false);
@@ -87,7 +89,23 @@ const Upload = ({ addLayer }) => {
             </Row>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Upload</Modal.Title>
+                    <Modal.Title>Upload
+                        <OverlayTrigger
+                            trigger="hover"
+                            key="right"
+                            placement="right"
+                            overlay={
+                                <Popover>
+                                    <Popover.Title as="h3">Help</Popover.Title>
+                                    <Popover.Content>
+                                        {uploadHelp}
+                                    </Popover.Content>
+                                </Popover>
+                            }
+                        >
+                            <FaInfoCircle style={{ margin: 4 }} />
+                        </OverlayTrigger>
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div {...getRootProps()}>
