@@ -20,6 +20,7 @@ import { FaInfoCircle } from 'react-icons/fa'
 import propertyFilter from '../../../helpers/propertyFilter'
 import getRandomColor from '../../../helpers/getRandomColor'
 import getUniqueValues from '../../../helpers/getUniqueValues'
+import getDisplayType from '../../../helpers/getDisplayType'
 import isNumber from '../../../helpers/isNumber'
 
 const propertyOperation = {
@@ -94,7 +95,8 @@ const PropertyFilterModal = ({ lrs, addLayer }) => {
                     name: layer.name + "_filtered",
                     data: ffCollection,
                     addedToMap: false,
-                    color: getRandomColor()
+                    color: getRandomColor(),
+                    displayType: getDisplayType(ffCollection)
                 }
                 addLayer(newLayer)
                 event.preventDefault()
@@ -105,7 +107,6 @@ const PropertyFilterModal = ({ lrs, addLayer }) => {
     }
 
     const valueCondtionalRender = (property) => {
-        console.log(property[1])
         switch (property[1]) {
             case 'string':
                 return (

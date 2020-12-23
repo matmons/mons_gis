@@ -40,7 +40,6 @@ export const Buffer = (layer1, radius) => {
     return newLayer
 }
 export const Intersect = (layer1, layer2) => {
-    console.log(layer1)
     const l1 = detailLevelHelper(layer1.data)
     const l2 = detailLevelHelper(layer2.data)
 
@@ -48,7 +47,6 @@ export const Intersect = (layer1, layer2) => {
     var l2_modified = []
 
     if (l1.geometry.type === 'MultiPolygon') {
-        console.log('l1 mp')
         l1_modified = l1.geometry.coordinates.map(c => polygon(c))
     } else {
         l1_modified = [l1]
@@ -66,13 +64,12 @@ export const Intersect = (layer1, layer2) => {
     for (var f1 of l1_modified) {
         for (var f2 of l2_modified) {
             var is = intersect(f1, f2)
-            console.log('is', is)
             if (is) {
                 newData.features.push(is)
             }
         }
     }
-    console.log('new data', newData)
+
     const newLayer = {
         id: 'IS_' + layer1.name + '_' + layer2.name + (Math.floor(Math.random() * 1000)).toString(),
         name: 'IS_' + layer1.name + '_' + layer2.name,

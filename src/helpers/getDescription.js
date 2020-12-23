@@ -4,7 +4,6 @@
  */
 
 const getDescription = (data) => {
-    console.log('getdesc', data.features)
     if (data.features[0].layer.id.split('_')[0] === 'Cluster') {
         return 'Cluster ' + data.features[0].properties.cluster.toString()
     }
